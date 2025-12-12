@@ -232,58 +232,7 @@ def plot_culture_bubble():
     plt.close()
     print("图3 文化输出气泡图 已保存")
 
-# ================== 图4: 短vs长视频箱线图 ==================
-def plot_duration_boxplot():
-    """短vs长视频 - 箱线图"""
-    fig, axes = plt.subplots(1, 2, figsize=(16, 8))
-    
-    # 过滤有效时长数据
-    valid_df = df[df['时长_秒'].notna()].copy()
-    
-    # 将视频分为短、中、长
-    def categorize_duration(seconds):
-        if seconds <= 60:
-            return '短视频\n(≤1分钟)'
-        elif seconds <= 300:
-            return '中等视频\n(1-5分钟)'
-        elif seconds <= 600:
-            return '较长视频\n(5-10分钟)'
-        else:
-            return '长视频\n(>10分钟)'
-    
-    valid_df['时长类别'] = valid_df['时长_秒'].apply(categorize_duration)
-    
-    # 定义顺序
-    order = ['短视频\n(≤1分钟)', '中等视频\n(1-5分钟)', '较长视频\n(5-10分钟)', '长视频\n(>10分钟)']
-    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-    
-    # 图4a: 播放量箱线图
-    box1 = axes[0].boxplot([valid_df[valid_df['时长类别']==cat]['播放量'].values for cat in order],
-                           labels=order, patch_artist=True)
-    for patch, color in zip(box1['boxes'], colors):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
-    
-    # 设置播放量坐标轴格式为万单位
-    from matplotlib.ticker import FuncFormatter
-    axes[0].yaxis.set_major_formatter(FuncFormatter(format_wan))
-    
-    axes[0].set_ylabel('播放量（万）', fontsize=12)
-    axes[0].set_title('不同时长视频的播放量分布', fontsize=12, fontweight='bold')
-    axes[0].tick_params(axis='x', labelsize=10)
-    
 
-    # 添加样本数量
-    for i, cat in enumerate(order):
-        n = len(valid_df[valid_df['时长类别']==cat])
-        axes[0].text(i+1, axes[0].get_ylim()[1]*0.95, f'n={n}', ha='center', fontsize=9)
-        axes[1].text(i+1, axes[1].get_ylim()[1]*0.95, f'n={n}', ha='center', fontsize=9)
-    
-    fig.suptitle('短视频 vs 长视频 - 箱线图对比', fontsize=14, fontweight='bold', y=1.02)
-    plt.tight_layout()
-    plt.savefig('4_短长视频箱线图.png', dpi=300, bbox_inches='tight', facecolor='white')
-    plt.close()
-    print("图4 短长视频箱线图 已保存")
 
 # ================== 图4b: 视频时长分布饼图 ==================
 def plot_duration_pie():
@@ -452,4 +401,5 @@ if __name__ == '__main__':
     print("🎉 所有图表已生成完成！")
     print("保存位置: 当前目录下的 PNG 文件")
     print("="*50)
+
 
