@@ -272,17 +272,7 @@ def plot_duration_boxplot():
     axes[0].set_title('不同时长视频的播放量分布', fontsize=12, fontweight='bold')
     axes[0].tick_params(axis='x', labelsize=10)
     
-    # 图4b: 互动率箱线图
-    box2 = axes[1].boxplot([valid_df[valid_df['时长类别']==cat]['互动率'].values for cat in order],
-                           labels=order, patch_artist=True)
-    for patch, color in zip(box2['boxes'], colors):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
-    
-    axes[1].set_ylabel('互动率 (%)', fontsize=12)
-    axes[1].set_title('不同时长视频的互动率分布', fontsize=12, fontweight='bold')
-    axes[1].tick_params(axis='x', labelsize=10)
-    
+
     # 添加样本数量
     for i, cat in enumerate(order):
         n = len(valid_df[valid_df['时长类别']==cat])
@@ -462,3 +452,4 @@ if __name__ == '__main__':
     print("🎉 所有图表已生成完成！")
     print("保存位置: 当前目录下的 PNG 文件")
     print("="*50)
+
